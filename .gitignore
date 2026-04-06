@@ -1,0 +1,12 @@
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user
+*.Rproj
+src/*.o
+src/*.so
+src/*.dll
+src/*.dylib
+inst/doc
+Meta
+*.tar.gz
