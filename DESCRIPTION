@@ -23,12 +23,14 @@ Imports:
     neuprintr,
     pbapply
 Suggests:
+    nat.templatebrains,
     spelling,
     testthat (>= 3.0.0)
 Remotes:
     natverse/malevnc,
     natverse/nat,
-    natverse/neuprintr
+    natverse/neuprintr,
+    natverse/nat.templatebrains
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
