@@ -1,4 +1,5 @@
 #' @keywords internal
+#' @import pbapply
 #'
 #' @section Bridging registrations: `yakuba` registers a bundled thin-plate
 #'   spline transform from `yakubaum` to `MANC` at package startup when
