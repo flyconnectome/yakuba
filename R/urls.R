@@ -15,6 +15,21 @@ normalise_dyak_dataset <- function(dataset) {
   }
 }
 
+dyak_known_dataset_options <- function(dataset) {
+  dataset <- normalise_dyak_dataset(dataset)
+  if (!identical(dataset, "yakuba")) {
+    return(NULL)
+  }
+
+  list(
+    malevnc.dataset = dataset,
+    malevnc.neuprint = "https://neuprint.janelia.org",
+    malevnc.neuprint_dataset = "yakuba-vnc",
+    malevnc.server = NULL,
+    malevnc.rootnode = NULL
+  )
+}
+
 #' Evaluate an expression after temporarily setting malevnc options
 #'
 #' @description `yakuba` is a thin wrapper around `malevnc`. This function
@@ -63,7 +78,8 @@ with_dyak <- function(expr, dataset = dyak_default_dataset()) {
 #'   `dyak_*` functions. It is the recommended way to access yakuba dataset
 #'   variants. Unlike [choose_dyak()] it does *not* permanently change the
 #'   default dataset used when callers use functions from the `malevnc` package
-#'   directly (such as `malevnc::manc_xyz2bodyid()`).
+#'   directly (such as `malevnc::manc_xyz2bodyid()`). Known aliases for the main
+#'   yakuba dataset do not require a live Clio lookup.
 #'
 #' @return A named list of previous option values, matching `options()`.
 #' @examples
@@ -74,7 +90,9 @@ with_dyak <- function(expr, dataset = dyak_default_dataset()) {
 #' @export
 choose_dyak_dataset <- function(dataset = "yakuba") {
   dataset <- normalise_dyak_dataset(dataset)
-  malevnc::choose_flyem_dataset(dataset, set = FALSE)
+  if (is.null(dyak_known_dataset_options(dataset))) {
+    malevnc::choose_flyem_dataset(dataset, set = FALSE)
+  }
 
   old_dataset <- dyak_default_dataset()
   if (!identical(old_dataset, dataset)) {
@@ -91,7 +109,32 @@ choose_dyak_dataset <- function(dataset = "yakuba") {
 #'   to do this temporarily unless you have no intention of using other FlyEM
 #'   datasets. *To switch the default `yakuba` dataset please see
 #'   `choose_dyak_dataset()`.*
+#'
+#'   When Clio dataset lookup is unavailable, `choose_dyak()` falls back to a
+#'   built-in neuprint-only configuration for the main yakuba dataset aliases.
+#'   DVID/Clio-backed functionality may be unavailable in that session.
 #' @export
 choose_dyak <- function(dataset = dyak_default_dataset(), set = TRUE) {
-  malevnc::choose_flyem_dataset(dataset = normalise_dyak_dataset(dataset), set = set)
+  dataset <- normalise_dyak_dataset(dataset)
+  tryCatch(
+    malevnc::choose_flyem_dataset(dataset = dataset, set = set),
+    error = function(e) {
+      ops <- dyak_known_dataset_options(dataset)
+      if (is.null(ops)) {
+        stop(e)
+      }
+
+      warning(
+        "Clio dataset lookup failed; falling back to baked-in neuprint settings ",
+        "for `", dataset, "`. DVID/Clio-backed functionality may be unavailable ",
+        "in this session.",
+        call. = FALSE
+      )
+      if (isTRUE(set)) {
+        options(ops)
+      } else {
+        ops
+      }
+    }
+  )
 }

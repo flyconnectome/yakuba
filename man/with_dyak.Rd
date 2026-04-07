@@ -34,6 +34,10 @@ should target yakuba instead. It is recommended that you use \code{\link[=with_d
 to do this temporarily unless you have no intention of using other FlyEM
 datasets. \emph{To switch the default \code{yakuba} dataset please see
 \code{choose_dyak_dataset()}.}
+
+When Clio dataset lookup is unavailable, \code{choose_dyak()} falls back to a
+built-in neuprint-only configuration for the main yakuba dataset aliases.
+DVID/Clio-backed functionality may be unavailable in that session.
 }
 \details{
 Note that it can also temporarily switch out the active dataset for

@@ -76,6 +76,7 @@ plot3d(dna02.manc.yak, col = "black", lwd = 2)
 Useful links:
 \itemize{
   \item \url{https://github.com/flyconnectome/yakuba}
+  \item \url{https://flyconnectome.github.io/yakuba/}
   \item Report bugs at \url{https://github.com/flyconnectome/yakuba/issues}
 }
 

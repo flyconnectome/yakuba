@@ -20,7 +20,8 @@ A named list of previous option values, matching \code{options()}.
 \verb{dyak_*} functions. It is the recommended way to access yakuba dataset
 variants. Unlike \code{\link[=choose_dyak]{choose_dyak()}} it does \emph{not} permanently change the
 default dataset used when callers use functions from the \code{malevnc} package
-directly (such as \code{malevnc::manc_xyz2bodyid()}).
+directly (such as \code{malevnc::manc_xyz2bodyid()}). Known aliases for the main
+yakuba dataset do not require a live Clio lookup.
 }
 \examples{
 \donttest{
