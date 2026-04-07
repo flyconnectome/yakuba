@@ -23,6 +23,7 @@ Imports:
     neuprintr,
     pbapply
 Suggests:
+    Morpho,
     nat.templatebrains,
     spelling,
     testthat (>= 3.0.0)
