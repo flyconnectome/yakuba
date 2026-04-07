@@ -30,10 +30,11 @@ the corresponding neurons in MANC.
 
 ```r
 library(malevnc)
+library(yakuba)
 library(nat)
 library(nat.templatebrains)
 
-MANC.tissue.surf.yak = nat.templatebrains::xform_brain(
+MANC.tissue.surf.yak = xform_brain(
   MANC.tissue.surf,
   sample = "MANC",
   reference = "yakuba"
@@ -45,8 +46,8 @@ plot3d(dna02, lwd = 3)
 
 # nb the default template space for MANC is calibrated in microns
 # but for yakuba we use nm
-dna02.manc = malevnc::manc_read_neurons("DNa02", units = "microns")
-dna02.manc.yak = nat.templatebrains::xform_brain(
+dna02.manc = manc_read_neurons("DNa02", units = "microns")
+dna02.manc.yak = xform_brain(
   dna02.manc,
   reference = "yakuba",
   sample = "MANC"
