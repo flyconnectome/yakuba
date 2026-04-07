@@ -7,7 +7,10 @@ yakuba dataset. This means that all functions from the malevnc package
 should target yakuba instead. It is recommended that you use with_dyak()
 to do this temporarily unless you have no intention of using other FlyEM
 datasets. To switch the default yakuba dataset please see
-choose_dyak_dataset()."><meta property="og:description" content="yakuba is a thin wrapper around malevnc. This function
+choose_dyak_dataset().
+When Clio dataset lookup is unavailable, choose_dyak() falls back to a
+built-in neuprint-only configuration for the main yakuba dataset aliases.
+DVID/Clio-backed functionality may be unavailable in that session."><meta property="og:description" content="yakuba is a thin wrapper around malevnc. This function
 temporarily changes the server/dataset options for malevnc while running
 your expression.
 choose_dyak() swaps out the default malevnc dataset for the
@@ -15,7 +18,10 @@ yakuba dataset. This means that all functions from the malevnc package
 should target yakuba instead. It is recommended that you use with_dyak()
 to do this temporarily unless you have no intention of using other FlyEM
 datasets. To switch the default yakuba dataset please see
-choose_dyak_dataset()."></head><body>
+choose_dyak_dataset().
+When Clio dataset lookup is unavailable, choose_dyak() falls back to a
+built-in neuprint-only configuration for the main yakuba dataset aliases.
+DVID/Clio-backed functionality may be unavailable in that session."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -58,6 +64,9 @@ should target yakuba instead. It is recommended that you use <code>with_dyak()</
 to do this temporarily unless you have no intention of using other FlyEM
 datasets. <em>To switch the default <code>yakuba</code> dataset please see
 <code><a href="choose_dyak_dataset.html">choose_dyak_dataset()</a></code>.</em></p>
+<p>When Clio dataset lookup is unavailable, <code>choose_dyak()</code> falls back to a
+built-in neuprint-only configuration for the main yakuba dataset aliases.
+DVID/Clio-backed functionality may be unavailable in that session.</p>
     </div>
 
     <div class="section level2">
@@ -108,14 +117,16 @@ the same expression for different yakuba dataset variants.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">with_dyak</span><span class="op">(</span><span class="fu"><a href="dyak_ids.html">dyak_ids</a></span><span class="op">(</span><span class="st">"DNa02"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in clio_auth():</span> Clio/Google auth failure. Do you have access rights to VNC clio?</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in (function (path, body = NULL, server = NULL, conf = NULL, parse.json = TRUE,     include_headers = TRUE, simplifyVector = FALSE, app = NULL,     ...) {    if (is.null(app))         app = paste0("neuprintr/", utils::packageVersion("neuprintr"))    req &lt;- if (is.null(body)) {        httr::GET(url = file.path(server, path, fsep = "/"),             config = conf, httr::user_agent(app), ...)    }    else {        httr::POST(url = file.path(server, path, fsep = "/"),             body = body, config = conf, httr::user_agent(app),             ...)    }    neuprint_error_check(req)    if (parse.json) {        parsed = neuprint_parse_json(req, simplifyVector = simplifyVector)        if (length(parsed) == 2 &amp;&amp; isTRUE(names(parsed)[2] ==             "error")) {            stop("neuPrint error: ", parsed$error)        }        if (include_headers) {            fields_to_include = c("url", "headers")            attributes(parsed) = c(attributes(parsed), req[fields_to_include])        }        parsed    }    else req})(path = path, body = body, server = server, conf = conf, parse.json = parse.json,     include_headers = include_headers, simplifyVector = simplifyVector,     app = app):</span> Unauthorized (HTTP 401). Failed to process url: https://neuprint-yakuba.janelia.org/api/dbmeta/datasets with neuPrint error: invalid or expired jwt.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">old</span> <span class="op">&lt;-</span> <span class="fu">choose_dyak</span><span class="op">(</span><span class="st">"yakuba"</span>, set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in clio_auth():</span> Clio/Google auth failure. Do you have access rights to VNC clio?</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">old</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'old' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ malevnc.server          : chr "https://emdata7-yakuba.janelia.org"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ malevnc.rootnode        : chr "04d73f090f864fe3ba17e57410b8c7ce"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ malevnc.dataset         : chr "yakuba"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ malevnc.neuprint        : chr "https://neuprint-yakuba.janelia.org"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ malevnc.neuprint_dataset: chr "yakuba-vnc"</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

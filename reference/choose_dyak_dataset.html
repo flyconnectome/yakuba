@@ -3,11 +3,13 @@
 dyak_* functions. It is the recommended way to access yakuba dataset
 variants. Unlike choose_dyak() it does not permanently change the
 default dataset used when callers use functions from the malevnc package
-directly (such as malevnc::manc_xyz2bodyid())."><meta property="og:description" content="choose_dyak_dataset() sets the default dataset used by all
+directly (such as malevnc::manc_xyz2bodyid()). Known aliases for the main
+yakuba dataset do not require a live Clio lookup."><meta property="og:description" content="choose_dyak_dataset() sets the default dataset used by all
 dyak_* functions. It is the recommended way to access yakuba dataset
 variants. Unlike choose_dyak() it does not permanently change the
 default dataset used when callers use functions from the malevnc package
-directly (such as malevnc::manc_xyz2bodyid())."></head><body>
+directly (such as malevnc::manc_xyz2bodyid()). Known aliases for the main
+yakuba dataset do not require a live Clio lookup."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -45,7 +47,8 @@ directly (such as malevnc::manc_xyz2bodyid())."></head><body>
 <code>dyak_*</code> functions. It is the recommended way to access yakuba dataset
 variants. Unlike <code><a href="with_dyak.html">choose_dyak()</a></code> it does <em>not</em> permanently change the
 default dataset used when callers use functions from the <code>malevnc</code> package
-directly (such as <code><a href="https://natverse.org/malevnc/reference/manc_xyz2bodyid.html" class="external-link">malevnc::manc_xyz2bodyid()</a></code>).</p>
+directly (such as <code><a href="https://natverse.org/malevnc/reference/manc_xyz2bodyid.html" class="external-link">malevnc::manc_xyz2bodyid()</a></code>). Known aliases for the main
+yakuba dataset do not require a live Clio lookup.</p>
     </div>
 
     <div class="section level2">
@@ -73,11 +76,8 @@ datasets, but we expect those to look like e.g. <code>yakuba-vnc:v0.1</code>.</p
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">choose_dyak_dataset</span><span class="op">(</span><span class="st">"yakuba"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in clio_auth():</span> Clio/Google auth failure. Do you have access rights to VNC clio?</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!</span>
 <span class="r-in"><span><span class="fu"><a href="dyak_ids.html">dyak_ids</a></span><span class="op">(</span><span class="st">"DNa02"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in clio_auth():</span> Clio/Google auth failure. Do you have access rights to VNC clio?</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in (function (path, body = NULL, server = NULL, conf = NULL, parse.json = TRUE,     include_headers = TRUE, simplifyVector = FALSE, app = NULL,     ...) {    if (is.null(app))         app = paste0("neuprintr/", utils::packageVersion("neuprintr"))    req &lt;- if (is.null(body)) {        httr::GET(url = file.path(server, path, fsep = "/"),             config = conf, httr::user_agent(app), ...)    }    else {        httr::POST(url = file.path(server, path, fsep = "/"),             body = body, config = conf, httr::user_agent(app),             ...)    }    neuprint_error_check(req)    if (parse.json) {        parsed = neuprint_parse_json(req, simplifyVector = simplifyVector)        if (length(parsed) == 2 &amp;&amp; isTRUE(names(parsed)[2] ==             "error")) {            stop("neuPrint error: ", parsed$error)        }        if (include_headers) {            fields_to_include = c("url", "headers")            attributes(parsed) = c(attributes(parsed), req[fields_to_include])        }        parsed    }    else req})(path = path, body = body, server = server, conf = conf, parse.json = parse.json,     include_headers = include_headers, simplifyVector = simplifyVector,     app = app):</span> Unauthorized (HTTP 401). Failed to process url: https://neuprint-yakuba.janelia.org/api/dbmeta/datasets with neuPrint error: invalid or expired jwt.</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

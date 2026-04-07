@@ -51,7 +51,6 @@ For details (and there are some) please see
 ``` r
 # \donttest{
 dyak_islatest(c(10280,10490))
-#> Error in clio_auth(): Clio/Google auth failure. Do you have access rights to VNC clio?
-#> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!
+#> [1] TRUE TRUE
 # }
 ```

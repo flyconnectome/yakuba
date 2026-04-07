@@ -116,14 +116,11 @@ for details.
 ## Examples
 
 ``` r
-# \donttest{
-ids <- dyak_ids("DNa02")
-#> Error in clio_auth(): Clio/Google auth failure. Do you have access rights to VNC clio?
-#> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!
+if (FALSE) { # \dontrun{
+ids <- dyak_ids("DNa02", as_character = FALSE)
 yakuba_annotate_body(
-  data.frame(bodyid = ids[1], group = ids[1]),
+  data.frame(bodyid = ids[1], group = min(ids)),
   test = TRUE
 )
-#> Error: object 'ids' not found
-# }
+} # }
 ```

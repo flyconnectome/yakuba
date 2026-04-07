@@ -11,6 +11,11 @@ do this temporarily unless you have no intention of using other FlyEM
 datasets. *To switch the default `yakuba` dataset please see
 [`choose_dyak_dataset()`](https://flyconnectome.github.io/yakuba/reference/choose_dyak_dataset.md).*
 
+When Clio dataset lookup is unavailable, `choose_dyak()` falls back to a
+built-in neuprint-only configuration for the main yakuba dataset
+aliases. DVID/Clio-backed functionality may be unavailable in that
+session.
+
 ## Usage
 
 ``` r
@@ -59,13 +64,15 @@ the same expression for different yakuba dataset variants.
 ``` r
 # \donttest{
 with_dyak(dyak_ids("DNa02"))
-#> Error in clio_auth(): Clio/Google auth failure. Do you have access rights to VNC clio?
-#> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!
+#> Error in (function (path, body = NULL, server = NULL, conf = NULL, parse.json = TRUE,     include_headers = TRUE, simplifyVector = FALSE, app = NULL,     ...) {    if (is.null(app))         app = paste0("neuprintr/", utils::packageVersion("neuprintr"))    req <- if (is.null(body)) {        httr::GET(url = file.path(server, path, fsep = "/"),             config = conf, httr::user_agent(app), ...)    }    else {        httr::POST(url = file.path(server, path, fsep = "/"),             body = body, config = conf, httr::user_agent(app),             ...)    }    neuprint_error_check(req)    if (parse.json) {        parsed = neuprint_parse_json(req, simplifyVector = simplifyVector)        if (length(parsed) == 2 && isTRUE(names(parsed)[2] ==             "error")) {            stop("neuPrint error: ", parsed$error)        }        if (include_headers) {            fields_to_include = c("url", "headers")            attributes(parsed) = c(attributes(parsed), req[fields_to_include])        }        parsed    }    else req})(path = path, body = body, server = server, conf = conf, parse.json = parse.json,     include_headers = include_headers, simplifyVector = simplifyVector,     app = app): Unauthorized (HTTP 401). Failed to process url: https://neuprint-yakuba.janelia.org/api/dbmeta/datasets with neuPrint error: invalid or expired jwt.
 
 old <- choose_dyak("yakuba", set = FALSE)
-#> Error in clio_auth(): Clio/Google auth failure. Do you have access rights to VNC clio?
-#> Try specifying the email linked to clio in a call to `clio_auth` or setting `options(malevnc.clio_email)`!
 str(old)
-#> Error: object 'old' not found
+#> List of 5
+#>  $ malevnc.server          : chr "https://emdata7-yakuba.janelia.org"
+#>  $ malevnc.rootnode        : chr "04d73f090f864fe3ba17e57410b8c7ce"
+#>  $ malevnc.dataset         : chr "yakuba"
+#>  $ malevnc.neuprint        : chr "https://neuprint-yakuba.janelia.org"
+#>  $ malevnc.neuprint_dataset: chr "yakuba-vnc"
 # }
 ```
