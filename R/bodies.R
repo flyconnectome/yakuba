@@ -110,8 +110,6 @@ yakuba_annotate_body <- function(x, test = TRUE, version = NULL,
     x$bodyid <- dyak_ids(x$bodyid, as_character = FALSE, unique = FALSE,
                          dataset = dataset)
   }
-  if (isTRUE(check_types))
-    schema_compare(x, dataset = dataset)
   with_dyak(
     malevnc::manc_annotate_body(
       x,
@@ -121,6 +119,7 @@ yakuba_annotate_body <- function(x, test = TRUE, version = NULL,
       write_empty_fields = write_empty_fields,
       protect = protect,
       chunksize = chunksize,
+      check_types = check_types,
       query = FALSE,
       ...
     ),
@@ -197,49 +196,4 @@ read_dyak_neurons <- function(ids, connectors = FALSE,
   )
 
   switch(units, nm = res * rep(8, 4), microns = res * rep(8 / 1000, 4), res)
-}
-
-.url_clio_schema <- function(dataset = dyak_default_dataset()) {
-  dvid <- with_dyak(
-    getOption("malevnc.server", "https://emdata.janelia.org"),
-    dataset = dataset
-  )
-  paste0(dvid, "/api/node/:master/segmentation_annotations/json_schema")
-}
-
-TYPES_MAPPING <- list(
-  "integer" = c("numeric", "integer", "integer64"),
-  "string" = c("character", "factor"),
-  "array" = c("list"),
-  "boolean" = c("logical")
-)
-
-schema_compare <- function(x, dataset = dyak_default_dataset()) {
-  if (!is.data.frame(x)) {
-    return(invisible(TRUE))
-  }
-
-  types <- malevnc:::clio_fetch(.url_clio_schema(dataset = dataset))
-  types <- sapply(types$properties, function(x) {
-    if (length(x$type)) x$type[[1]] else NA_character_
-  })
-  col_types <- sapply(x, class, simplify = FALSE)
-
-  schema_nm_check <- function(nm) {
-    if (nm %in% names(types) && !is.na(types[[nm]])) {
-      col_types[[nm]] %in% TYPES_MAPPING[[types[[nm]]]]
-    } else {
-      TRUE
-    }
-  }
-
-  check_types <- sapply(names(col_types), schema_nm_check)
-  if (isFALSE(all(check_types))) {
-    stop(
-      paste(
-        "Wrong types of columns:",
-        paste(names(check_types[check_types == FALSE]), collapse = ", ")
-      )
-    )
-  }
 }
