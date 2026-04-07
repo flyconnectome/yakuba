@@ -1,6 +1,6 @@
 Package: yakuba
 Type: Package
-Title: Access the Yakuba FlyEM Dataset
+Title: Access the Drosophila yakuba FlyEM Dataset
 Version: 0.0.0.9000
 Authors@R:
     c(person(given = "Gregory",
@@ -20,7 +20,8 @@ Imports:
     dplyr,
     malevnc,
     nat,
-    neuprintr
+    neuprintr,
+    pbapply
 Suggests:
     spelling,
     testthat (>= 3.0.0)
