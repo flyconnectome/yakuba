@@ -10,3 +10,4 @@ src/*.dylib
 inst/doc
 Meta
 *.tar.gz
+docs
