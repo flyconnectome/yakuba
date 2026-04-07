@@ -32,7 +32,7 @@ simple \code{"x,y,z"} format rather than a longer form referencing a schema at
 queries are cached for neuprint snapshot versions (but not production
 datasets). See details.}
 
-\item{...}{Additional arguments passed to \code{\link{neuprint_get_meta}}}
+\item{...}{Additional arguments passed to \code{\link[neuprintr:neuprint_get_meta]{neuprintr::neuprint_get_meta()}}.}
 
 \item{dataset}{The name of the dataset as reported in Clio or neuprint.}
 }

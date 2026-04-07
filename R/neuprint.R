@@ -13,6 +13,7 @@
 #'   `dyak_neuprint()` (which would otherwise be chosen based on the value of
 #'   `options(yakuba.dataset)`, normally changed by [choose_dyak_dataset()]).
 #' @param Force Passed to `neuprintr::neuprint_login()`.
+#' @param ... Additional arguments passed to [neuprintr::neuprint_login()].
 #'
 #' @return A `neuprint_connection` object returned by
 #'   [neuprintr::neuprint_login()].
@@ -49,6 +50,7 @@ dyak_neuprint <- function(token = Sys.getenv("neuprint_token"),
 #' @inheritParams with_dyak
 #' @param conn Optional, a `neuprint_connection` object. Defaults to
 #'   [dyak_neuprint()] to ensure that query is against the yakuba dataset.
+#' @param ... Additional arguments passed to [neuprintr::neuprint_get_meta()].
 #'
 #' @return A data frame with one row for each unique input id and `NA`s for all
 #'   columns except `bodyid` when neuprint holds no metadata.
@@ -100,6 +102,8 @@ dyak_neuprint_meta <- function(ids = NULL, conn = NULL, roiInfo = FALSE,
 #' @inheritParams malevnc::manc_connection_table
 #' @inheritParams neuprintr::neuprint_connection_table
 #' @inheritParams with_dyak
+#' @param ... Additional arguments passed to
+#'   [neuprintr::neuprint_connection_table()].
 #' @param dataset The name of the dataset as reported in Clio e.g. `yakuba`,
 #'   `yakuba-vnc` etc. `yakuba`, `yakuba-vnc` and `yakubavnc` are treated as
 #'   aliases for the main yakuba dataset.

@@ -43,8 +43,8 @@ region of interest (ROI)}
 \item{conn}{Optional, a \code{neuprint_connection} object. Defaults to
 \code{\link[=dyak_neuprint]{dyak_neuprint()}} to ensure that query is against the yakuba dataset.}
 
-\item{...}{additional arguments passed to
-\code{\link{neuprint_connection_table}}}
+\item{...}{Additional arguments passed to
+\code{\link[neuprintr:neuprint_connection_table]{neuprintr::neuprint_connection_table()}}.}
 
 \item{dataset}{The name of the dataset as reported in Clio e.g. \code{yakuba},
 \code{yakuba-vnc} etc. \code{yakuba}, \code{yakuba-vnc} and \code{yakubavnc} are treated as

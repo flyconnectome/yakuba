@@ -21,7 +21,7 @@ neuprint.janelia.org website.}
 
 \item{Force}{Passed to \code{neuprintr::neuprint_login()}.}
 
-\item{...}{Additional arguments passed to \code{\link{neuprint_login}}}
+\item{...}{Additional arguments passed to \code{\link[neuprintr:neuprint_login]{neuprintr::neuprint_login()}}.}
 }
 \value{
 A \code{neuprint_connection} object returned by

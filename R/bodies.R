@@ -10,6 +10,7 @@
 #' @param dataset The name of the dataset as reported in Clio e.g. `yakuba`,
 #'   `yakuba-vnc` etc. `yakuba`, `yakuba-vnc` and `yakubavnc` are treated as
 #'   aliases for the main yakuba dataset.
+#' @param ... Additional arguments passed to [pbapply::pblapply()].
 #'
 #' @return A data frame with metadata.
 #' @seealso [malevnc::manc_body_annotations()]

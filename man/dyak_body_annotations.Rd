@@ -36,7 +36,7 @@ bearer token)}
 \item{test}{Whether to unset the clio-store test server (default
 \code{FALSE})}
 
-\item{...}{Additional arguments passed to \code{pbapply::\link{pblapply}}}
+\item{...}{Additional arguments passed to \code{\link[pbapply:pbapply]{pbapply::pblapply()}}.}
 
 \item{dataset}{The name of the dataset as reported in Clio e.g. \code{yakuba},
 \code{yakuba-vnc} etc. \code{yakuba}, \code{yakuba-vnc} and \code{yakubavnc} are treated as
