@@ -86,10 +86,10 @@ can specify an alternate user with the \code{designated_user} argument; see
 }
 
 \examples{
-\donttest{
-ids <- dyak_ids("DNa02")
+\dontrun{
+ids <- dyak_ids("DNa02", as_character = FALSE)
 yakuba_annotate_body(
-  data.frame(bodyid = ids[1], group = ids[1]),
+  data.frame(bodyid = ids[1], group = min(ids)),
   test = TRUE
 )
 }

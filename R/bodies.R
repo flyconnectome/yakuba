@@ -92,10 +92,10 @@ dyak_body_annotations <- function(ids = NULL, query = NULL, json = FALSE,
 #' @return `NULL` invisibly on success. Errors out on failure.
 #' @seealso [malevnc::manc_annotate_body()]
 #' @examples
-#' \donttest{
-#' ids <- dyak_ids("DNa02")
+#' \dontrun{
+#' ids <- dyak_ids("DNa02", as_character = FALSE)
 #' yakuba_annotate_body(
-#'   data.frame(bodyid = ids[1], group = ids[1]),
+#'   data.frame(bodyid = ids[1], group = min(ids)),
 #'   test = TRUE
 #' )
 #' }
