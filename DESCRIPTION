@@ -34,5 +34,5 @@ Remotes:
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
-URL: https://github.com/flyconnectome/yakuba
+URL: https://github.com/flyconnectome/yakuba, https://flyconnectome.github.io/yakuba/
 BugReports: https://github.com/flyconnectome/yakuba/issues
