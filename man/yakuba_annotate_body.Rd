@@ -6,13 +6,14 @@
 \usage{
 yakuba_annotate_body(
   x,
-  test = TRUE,
+  test = FALSE,
   version = NULL,
   write_empty_fields = FALSE,
   designated_user = NULL,
   protect = c("user"),
   chunksize = 50,
   check_types = TRUE,
+  dry_run = TRUE,
   ...,
   dataset = dyak_default_dataset()
 )
@@ -21,8 +22,8 @@ yakuba_annotate_body(
 \item{x}{A data frame, list or JSON string containing body annotations. End
 users are strongly recommended to use data frames.}
 
-\item{test}{Whether to use the test Clio store (recommended until you are
-sure that you know what you are doing).}
+\item{test}{Whether to use the test Clio store. Default \code{FALSE} writes to
+production Clio. See \code{\link[malevnc:manc_annotate_body]{malevnc::manc_annotate_body()}}.}
 
 \item{version}{Optional Clio version to associate with this annotation. The
 default \code{NULL} uses the current version returned by the API.}
@@ -43,6 +44,10 @@ insist that all records are sent in a single request.}
 
 \item{check_types}{Whether to verify data-frame column types against the
 active yakuba Clio schema.}
+
+\item{dry_run}{When \code{TRUE} (the default) no data is written; a preview
+tibble of the POST body is returned. Pass \code{dry_run = FALSE} to actually
+write. See \code{\link[malevnc:manc_annotate_body]{malevnc::manc_annotate_body()}} for full details.}
 
 \item{...}{Additional parameters passed to \code{\link[pbapply:pbapply]{pbapply::pbsapply()}}.}
 

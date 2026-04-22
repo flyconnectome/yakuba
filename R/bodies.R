@@ -72,8 +72,11 @@ dyak_body_annotations <- function(ids = NULL, query = NULL, json = FALSE,
 #'   users are strongly recommended to use data frames.
 #' @param version Optional Clio version to associate with this annotation. The
 #'   default `NULL` uses the current version returned by the API.
-#' @param test Whether to use the test Clio store (recommended until you are
-#'   sure that you know what you are doing).
+#' @param test Whether to use the test Clio store. Default `FALSE` writes to
+#'   production Clio. See [malevnc::manc_annotate_body()].
+#' @param dry_run When `TRUE` (the default) no data is written; a preview
+#'   tibble of the POST body is returned. Pass `dry_run = FALSE` to actually
+#'   write. See [malevnc::manc_annotate_body()] for full details.
 #' @param write_empty_fields When `x` is a data frame, this controls whether
 #'   empty fields in `x` overwrite fields in the Clio database.
 #' @param designated_user Optional alternate user recorded in Clio for the
@@ -100,11 +103,11 @@ dyak_body_annotations <- function(ids = NULL, query = NULL, json = FALSE,
 #' )
 #' }
 #' @export
-yakuba_annotate_body <- function(x, test = TRUE, version = NULL,
+yakuba_annotate_body <- function(x, test = FALSE, version = NULL,
                                  write_empty_fields = FALSE,
                                  designated_user = NULL,
                                  protect = c("user"), chunksize = 50,
-                                 check_types = TRUE, ...,
+                                 check_types = TRUE, dry_run = TRUE, ...,
                                  dataset = dyak_default_dataset()) {
   if (is.data.frame(x) && "bodyid" %in% colnames(x)) {
     x$bodyid <- dyak_ids(x$bodyid, as_character = FALSE, unique = FALSE,
@@ -121,6 +124,7 @@ yakuba_annotate_body <- function(x, test = TRUE, version = NULL,
       chunksize = chunksize,
       check_types = check_types,
       query = FALSE,
+      dry_run = dry_run,
       ...
     ),
     dataset = dataset
