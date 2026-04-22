@@ -7,13 +7,14 @@ Set Clio body annotations
 ``` r
 yakuba_annotate_body(
   x,
-  test = TRUE,
+  test = FALSE,
   version = NULL,
   write_empty_fields = FALSE,
   designated_user = NULL,
   protect = c("user"),
   chunksize = 50,
   check_types = TRUE,
+  dry_run = TRUE,
   ...,
   dataset = dyak_default_dataset()
 )
@@ -28,8 +29,9 @@ yakuba_annotate_body(
 
 - test:
 
-  Whether to use the test Clio store (recommended until you are sure
-  that you know what you are doing).
+  Whether to use the test Clio store. Default `FALSE` writes to
+  production Clio. See
+  [`malevnc::manc_annotate_body()`](https://natverse.org/malevnc/reference/manc_annotate_body.html).
 
 - version:
 
@@ -61,6 +63,13 @@ yakuba_annotate_body(
 
   Whether to verify data-frame column types against the active yakuba
   Clio schema.
+
+- dry_run:
+
+  When `TRUE` (the default) no data is written; a preview tibble of the
+  POST body is returned. Pass `dry_run = FALSE` to actually write. See
+  [`malevnc::manc_annotate_body()`](https://natverse.org/malevnc/reference/manc_annotate_body.html)
+  for full details.
 
 - ...:
 

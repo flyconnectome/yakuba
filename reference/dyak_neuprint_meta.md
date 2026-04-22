@@ -69,8 +69,56 @@ columns except `bodyid` when neuprint holds no metadata.
 ``` r
 # \donttest{
 dyak_neuprint_meta("DNa02")
-#> Error in (function (path, body = NULL, server = NULL, conf = NULL, parse.json = TRUE,     include_headers = TRUE, simplifyVector = FALSE, app = NULL,     ...) {    if (is.null(app))         app = paste0("neuprintr/", utils::packageVersion("neuprintr"))    req <- if (is.null(body)) {        httr::GET(url = file.path(server, path, fsep = "/"),             config = conf, httr::user_agent(app), ...)    }    else {        httr::POST(url = file.path(server, path, fsep = "/"),             body = body, config = conf, httr::user_agent(app),             ...)    }    neuprint_error_check(req)    if (parse.json) {        parsed = neuprint_parse_json(req, simplifyVector = simplifyVector)        if (length(parsed) == 2 && isTRUE(names(parsed)[2] ==             "error")) {            stop("neuPrint error: ", parsed$error)        }        if (include_headers) {            fields_to_include = c("url", "headers")            attributes(parsed) = c(attributes(parsed), req[fields_to_include])        }        parsed    }    else req})(path = path, body = body, server = server, conf = conf, parse.json = parse.json,     include_headers = include_headers, simplifyVector = simplifyVector,     app = app): Unauthorized (HTTP 401). Failed to process url: https://neuprint-yakuba.janelia.org/api/dbmeta/datasets with neuPrint error: invalid or expired jwt.
+#> Warning: NAs introduced by coercion to integer64 range
+#>   bodyid post  pre downstream upstream synweight           statusLabel
+#> 1  10490  667 1405       9661      667     10328 Prelim Roughly traced
+#> 2  10280  717 1703      11806      717     12523       Cervical Anchor
+#>               class hemilineage somaNeuromere somaSide exitNerve rootSide  type
+#> 1 descending neuron        <NA>          <NA>     <NA>      <NA>        L DNa02
+#> 2 descending neuron        <NA>          <NA>     <NA>      <NA>        R DNa02
+#>   group location locationType nerve entryNerve subclass subsubclass
+#> 1 10280     <NA>         <NA>  <NA>       <NA>     <NA>        <NA>
+#> 2 10280     <NA>         <NA>  <NA>       <NA>     <NA>        <NA>
+#>   matchingNotes description tosomaLocation systematicType serial somaLocation
+#> 1          <NA>        <NA>           <NA>           <NA>     NA         <NA>
+#> 2          <NA>        <NA>           <NA>           <NA>     NA         <NA>
+#>      seedPosition         seedGroup status totalNtPredictions
+#> 1 17265,7157,2711 cervical-anterior Traced               1405
+#> 2 11571,7834,2712 cervical-anterior Anchor               1703
+#>   predictedNtConfidence   predictedNt celltypeTotalNtPredictions
+#> 1             0.8277975 acetylcholine                       3108
+#> 2             0.8322900 acetylcholine                       3108
+#>   celltypePredictedNt celltypePredictedNtConfidence   consensusNt     voxels
+#> 1       acetylcholine                     0.8302591 acetylcholine 3114139584
+#> 2       acetylcholine                     0.8302591 acetylcholine 3423699391
+#>    soma
+#> 1 FALSE
+#> 2 FALSE
 dyak_neuprint_meta(dyak_ids("DNa02"))
-#> Error in (function (path, body = NULL, server = NULL, conf = NULL, parse.json = TRUE,     include_headers = TRUE, simplifyVector = FALSE, app = NULL,     ...) {    if (is.null(app))         app = paste0("neuprintr/", utils::packageVersion("neuprintr"))    req <- if (is.null(body)) {        httr::GET(url = file.path(server, path, fsep = "/"),             config = conf, httr::user_agent(app), ...)    }    else {        httr::POST(url = file.path(server, path, fsep = "/"),             body = body, config = conf, httr::user_agent(app),             ...)    }    neuprint_error_check(req)    if (parse.json) {        parsed = neuprint_parse_json(req, simplifyVector = simplifyVector)        if (length(parsed) == 2 && isTRUE(names(parsed)[2] ==             "error")) {            stop("neuPrint error: ", parsed$error)        }        if (include_headers) {            fields_to_include = c("url", "headers")            attributes(parsed) = c(attributes(parsed), req[fields_to_include])        }        parsed    }    else req})(path = path, body = body, server = server, conf = conf, parse.json = parse.json,     include_headers = include_headers, simplifyVector = simplifyVector,     app = app): Unauthorized (HTTP 401). Failed to process url: https://neuprint-yakuba.janelia.org/api/dbmeta/datasets with neuPrint error: invalid or expired jwt.
+#> Warning: NAs introduced by coercion to integer64 range
+#>   bodyid post  pre downstream upstream synweight           statusLabel
+#> 1  10490  667 1405       9661      667     10328 Prelim Roughly traced
+#> 2  10280  717 1703      11806      717     12523       Cervical Anchor
+#>               class hemilineage somaNeuromere somaSide exitNerve rootSide  type
+#> 1 descending neuron        <NA>          <NA>     <NA>      <NA>        L DNa02
+#> 2 descending neuron        <NA>          <NA>     <NA>      <NA>        R DNa02
+#>   group location locationType nerve entryNerve subclass subsubclass
+#> 1 10280     <NA>         <NA>  <NA>       <NA>     <NA>        <NA>
+#> 2 10280     <NA>         <NA>  <NA>       <NA>     <NA>        <NA>
+#>   matchingNotes description tosomaLocation systematicType serial somaLocation
+#> 1          <NA>        <NA>           <NA>           <NA>     NA         <NA>
+#> 2          <NA>        <NA>           <NA>           <NA>     NA         <NA>
+#>      seedPosition         seedGroup status totalNtPredictions
+#> 1 17265,7157,2711 cervical-anterior Traced               1405
+#> 2 11571,7834,2712 cervical-anterior Anchor               1703
+#>   predictedNtConfidence   predictedNt celltypeTotalNtPredictions
+#> 1             0.8277975 acetylcholine                       3108
+#> 2             0.8322900 acetylcholine                       3108
+#>   celltypePredictedNt celltypePredictedNtConfidence   consensusNt     voxels
+#> 1       acetylcholine                     0.8302591 acetylcholine 3114139584
+#> 2       acetylcholine                     0.8302591 acetylcholine 3423699391
+#>    soma
+#> 1 FALSE
+#> 2 FALSE
 # }
 ```

@@ -86,6 +86,18 @@ exist for the given query ids.
 ``` r
 # \donttest{
 dyak_body_annotations("DNa02")
-#> Error in (function (path, body = NULL, server = NULL, conf = NULL, parse.json = TRUE,     include_headers = TRUE, simplifyVector = FALSE, app = NULL,     ...) {    if (is.null(app))         app = paste0("neuprintr/", utils::packageVersion("neuprintr"))    req <- if (is.null(body)) {        httr::GET(url = file.path(server, path, fsep = "/"),             config = conf, httr::user_agent(app), ...)    }    else {        httr::POST(url = file.path(server, path, fsep = "/"),             body = body, config = conf, httr::user_agent(app),             ...)    }    neuprint_error_check(req)    if (parse.json) {        parsed = neuprint_parse_json(req, simplifyVector = simplifyVector)        if (length(parsed) == 2 && isTRUE(names(parsed)[2] ==             "error")) {            stop("neuPrint error: ", parsed$error)        }        if (include_headers) {            fields_to_include = c("url", "headers")            attributes(parsed) = c(attributes(parsed), req[fields_to_include])        }        parsed    }    else req})(path = path, body = body, server = server, conf = conf, parse.json = parse.json,     include_headers = include_headers, simplifyVector = simplifyVector,     app = app): Unauthorized (HTTP 401). Failed to process url: https://neuprint-yakuba.janelia.org/api/dbmeta/datasets with neuPrint error: invalid or expired jwt.
+#> Warning: NAs introduced by coercion to integer64 range
+#>   bodyid celltype_predicted_nt celltype_predicted_nt_confidence
+#> 1  10490         acetylcholine                        0.8302591
+#> 2  10280         acetylcholine                        0.8302591
+#>   celltype_total_nt_predictions             class  consensus_nt group
+#> 1                          3108 descending neuron acetylcholine 10280
+#> 2                          3108 descending neuron acetylcholine 10280
+#>    predicted_nt predicted_nt_confidence root_side                status
+#> 1 acetylcholine               0.8277975         L Prelim Roughly traced
+#> 2 acetylcholine               0.8322900         R       Cervical Anchor
+#>   total_nt_predictions  type  user  auto
+#> 1                 1405 DNa02  <NA> FALSE
+#> 2                 1703 DNa02 bergs FALSE
 # }
 ```
