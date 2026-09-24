@@ -17,6 +17,10 @@ from \code{yakuba} (nm) to \code{yakubaum} (microns), so
 
 Note the current registration (which lives in inst/extdata) was computed by
 Sebastian Cachero in April 2025. See \href{https://flyem-cns.slack.com/archives/C07SFDC909W/p1744652271402679?thread_ts=1744645357.564199&cid=C07SFDC909W}{slack for details}
+
+A second thin-plate spline registration from \code{yakubaum} to a symmetrised
+yakuba template (\link{yakubasym}), also computed by Sebastian Cachero, supports
+left-right mirroring via \code{\link[=mirror_dyak]{mirror_dyak()}} and \code{\link[=symmetric_dyak]{symmetric_dyak()}}.
 }
 
 \section{Package Options}{
@@ -83,6 +87,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Gregory Jefferis \email{jefferis@gmail.com} (\href{https://orcid.org/0000-0002-0587-9355}{ORCID})
+
+Authors:
+\itemize{
+  \item Gregory Jefferis \email{jefferis@gmail.com} (\href{https://orcid.org/0000-0002-0587-9355}{ORCID})
+}
 
 }
 \keyword{internal}

@@ -13,8 +13,10 @@ Invisibly returns \code{NULL}.
 \code{yakuba_register_xforms()} registers a thin-plate spline
 transform from \code{yakubaum} to \code{MANC} using the bundled
 \code{yakuba_MANC_1000pts_tps.rds} file, and adds a simple scaling alias from
-\code{yakuba} (nm) to \code{yakubaum} (microns). Call once per session if the startup
-hook has not already done so.
+\code{yakuba} (nm) to \code{yakubaum} (microns). It also registers a thin-plate
+spline from \code{yakubaum} to the symmetric template \code{yakubasym} (see
+\code{\link[=mirror_dyak]{mirror_dyak()}}). Call once per session if the startup hook has not
+already done so.
 }
 \examples{
 \donttest{
