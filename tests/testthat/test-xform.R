@@ -117,6 +117,12 @@ test_that("xform_dyak2manc methods work and round trip", {
   back <- xform_dyak2manc(man, units = "microns", method = "manual",
                           inverse = TRUE)
   expect_lt(max(abs(back - xyz_um)), 5)
+
+  # the old registration is the default without the pre-shift
+  old <- xform_dyak2manc(xyz_um, units = "microns",
+                         method = "tps1000_unshifted")
+  expect_equal(old, xform_dyak2manc(sweep(xyz_um, 2, yakuba_surf_offset),
+                                    units = "microns"), tolerance = 1e-6)
 })
 
 test_that("xform_brain uses the default xform_dyak2manc registration", {

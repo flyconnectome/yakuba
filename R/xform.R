@@ -65,6 +65,10 @@ yakuba_register_xforms <- function() {
 #'   [yakuba_neuropil_shell] (precision ~1 µm); it reduces the mismatch between
 #'   matched yakuba and MANC descending neurons and neuropils by several µm.
 #'
+#'   - `"tps1000_unshifted"`: the same registration without the shift, as used
+#'   by yakuba versions before the correction. Provided for comparison and
+#'   reproducibility; not recommended for new work.
+#'
 #'   - `"manual"`: a thin-plate spline defined by 100 landmarks placed by hand
 #'   by Hiroshi Shiozaki.
 #'
@@ -74,8 +78,9 @@ yakuba_register_xforms <- function() {
 #'   suggested `malecns` package.
 #'
 #'   On descending neurons with a known MANC match (MDN, DNg13, DNa02) the
-#'   mean distance to the matched MANC neuron was 5.6, 6.4 and 7.7 µm for
-#'   `"tps1000"`, `"manual"` and `"ngscene"`, respectively.
+#'   mean distance to the matched MANC neuron was 5.6, 6.4, 7.7 and 8.9 µm for
+#'   `"tps1000"`, `"manual"`, `"ngscene"` and `"tps1000_unshifted"`,
+#'   respectively.
 #'
 #'   Inverse thin-plate splines are computed by swapping the landmark sets, so
 #'   round trips are approximate (~0.3 µm for `"tps1000"`, a few µm for
@@ -106,7 +111,7 @@ yakuba_register_xforms <- function() {
 #' plot3d(mdn.manc, col = "black")
 #' plot3d(mdn.manc2, col = "red")
 #' }
-xform_dyak2manc <- function(x, method = c("tps1000", "manual", "ngscene"),
+xform_dyak2manc <- function(x, method = c("tps1000", "manual", "ngscene", "tps1000_unshifted"),
                             units = c("nm", "microns"), inverse = FALSE,
                             ...) {
   method <- match.arg(method)
@@ -314,13 +319,16 @@ yakuba_sym_reg <- function(check = TRUE) {
 
 # internal: read (once) the yakubaum -> MANC registration for each method
 # (yakubaum -> malecnsum for "ngscene")
-yakuba_manc_reg <- function(method = c("tps1000", "manual", "ngscene")) {
+yakuba_manc_reg <- function(method = c("tps1000", "manual", "ngscene", "tps1000_unshifted")) {
   method <- match.arg(method)
   if (is.null(.yakuba_state$manc_reg[[method]])) {
     .yakuba_state$manc_reg[[method]] <- switch(
       method,
       tps1000 = nat::reglist(
         yakuba_offset_reg(),
+        yakuba_extdata_reg("yakuba_MANC_1000pts_tps.rds")
+      ),
+      tps1000_unshifted = nat::reglist(
         yakuba_extdata_reg("yakuba_MANC_1000pts_tps.rds")
       ),
       manual = nat::reglist(

@@ -6,7 +6,7 @@
 \usage{
 xform_dyak2manc(
   x,
-  method = c("tps1000", "manual", "ngscene"),
+  method = c("tps1000", "manual", "ngscene", "tps1000_unshifted"),
   units = c("nm", "microns"),
   inverse = FALSE,
   ...
@@ -48,6 +48,9 @@ yakuba coordinates, so points are first shifted by (-6.5, -7.1, -8.0) µm.
 The shift was estimated by fitting that surface to
 \link{yakuba_neuropil_shell} (precision ~1 µm); it reduces the mismatch between
 matched yakuba and MANC descending neurons and neuropils by several µm.
+\item \code{"tps1000_unshifted"}: the same registration without the shift, as used
+by yakuba versions before the correction. Provided for comparison and
+reproducibility; not recommended for new work.
 \item \code{"manual"}: a thin-plate spline defined by 100 landmarks placed by hand
 by Hiroshi Shiozaki.
 \item \code{"ngscene"}: a thin-plate spline from yakuba to the male CNS
@@ -57,8 +60,9 @@ suggested \code{malecns} package.
 }
 
 On descending neurons with a known MANC match (MDN, DNg13, DNa02) the
-mean distance to the matched MANC neuron was 5.6, 6.4 and 7.7 µm for
-\code{"tps1000"}, \code{"manual"} and \code{"ngscene"}, respectively.
+mean distance to the matched MANC neuron was 5.6, 6.4, 7.7 and 8.9 µm for
+\code{"tps1000"}, \code{"manual"}, \code{"ngscene"} and \code{"tps1000_unshifted"},
+respectively.
 
 Inverse thin-plate splines are computed by swapping the landmark sets, so
 round trips are approximate (~0.3 µm for \code{"tps1000"}, a few µm for

@@ -21,7 +21,8 @@ found and corrected in September 2026.
   yakuba data by about (6.5, 7.1, 8.0) µm. Points are now shifted by
   (-6.5, -7.1, -8.0) µm before either registration is applied.
 - Two alternative yakuba to MANC registrations are available with
-  `xform_dyak2manc(x, method = "manual")` and `method = "ngscene"`.
+  `xform_dyak2manc(x, method = "manual")` and `method = "ngscene"`. The old
+  registration without the shift is `method = "tps1000_unshifted"`.
 
 ```{r}
 library(yakuba)
@@ -104,7 +105,7 @@ types, using `data-raw/yakuba_xform_validation.R`:
 
 | Registration | DN mean distance (µm) | Median ROI shift vs MANC (µm) |
 |---|---|---|
-| tps1000, no offset (old) | 8.9 | (7.4, -2.1, 10.1) |
+| tps1000_unshifted (old) | 8.9 | (7.4, -2.1, 10.1) |
 | **tps1000 (default)** | **5.6** | **(0.6, 0.2, 0.2)** |
 | manual | 6.4 | (0.9, -0.3, -1.2) |
 | ngscene | 7.7 | (-2.0, 2.2, 1.6) |

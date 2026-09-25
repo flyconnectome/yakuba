@@ -51,7 +51,8 @@ dn_dist <- function(q, tg) sapply(q, function(n) min(sapply(tg, function(m)
   mean(nabor::knn(xyzmatrix(m), xyzmatrix(n), k = 1)$nn.dists))))
 
 methods <- list(
-  unshifted = function(x) xform(x, yakuba_extdata_reg("yakuba_MANC_1000pts_tps.rds")),
+  unshifted = function(x)
+    xform_dyak2manc(x, units = "microns", method = "tps1000_unshifted"),
   tps1000 = function(x) xform_dyak2manc(x, units = "microns"),
   manual = function(x) xform_dyak2manc(x, units = "microns", method = "manual"),
   ngscene = function(x) xform_dyak2manc(x, units = "microns", method = "ngscene")
