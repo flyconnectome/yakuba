@@ -144,3 +144,35 @@ test_that("xform_dyak2manc ngscene method chains via malecns", {
   tps <- xform_dyak2manc(xyz_um, units = "microns")
   expect_lt(sqrt(sum((ng - tps)^2)), 15)
 })
+
+test_that("dyak_lr_position assigns neuropils to the correct side", {
+  skip_if_not_installed("Morpho")
+  # centroids (microns) of left/right pairs of neuprint ROI meshes
+  cen <- rbind(
+    "LegNp(T1)(L)" = c(172.8, 107.0, 112.9),
+    "LegNp(T2)(L)" = c(172.5, 144.3, 251.6),
+    "LegNp(T3)(L)" = c(173.2, 108.9, 394.7),
+    "WTct(UTct-T2)(L)" = c(159.9, 59.9, 216.6),
+    "HTct(UTct-T3)(L)" = c(147.5, 77.1, 290.2),
+    "LegNp(T1)(R)" = c(68.7, 116.6, 115.5),
+    "LegNp(T2)(R)" = c(89.7, 151.4, 252.9),
+    "LegNp(T3)(R)" = c(93.1, 110.6, 393.4),
+    "WTct(UTct-T2)(R)" = c(80.9, 64.6, 219.2),
+    "HTct(UTct-T3)(R)" = c(100.9, 79.1, 290.9)
+  )
+  lr <- dyak_lr_position(cen, units = "microns")
+  is_left <- grepl("(L)", rownames(cen), fixed = TRUE)
+  # positive values are on the fly's right
+  expect_true(all(lr[is_left] < 0))
+  expect_true(all(lr[!is_left] > 0))
+  # partners are equidistant from the midline on average (the mean was ~ -20
+  # µm without yakuba_surf_offset)
+  expect_lt(abs(mean(lr[is_left] + lr[!is_left])), 4)
+
+  # consistent with the MANC midline after transformation
+  mlr <- try(malevnc::manc_lr_position(
+    xform_dyak2manc(cen, units = "microns"), units = "microns"), silent = TRUE)
+  skip_if(inherits(mlr, "try-error"), "manc_lr_position unavailable")
+  expect_equal(sign(mlr), sign(lr))
+  expect_gt(stats::cor(mlr, lr), 0.95)
+})
