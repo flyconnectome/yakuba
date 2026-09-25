@@ -93,3 +93,54 @@ test_that("mirror_dyak maps the neuropil shell onto itself", {
   # ~5 µm without the offset to the frame of the symmetrising registration
   expect_lt(stats::median(nabor::knn(v, m, k = 1)$nn.dists), 3)
 })
+
+test_that("xform_dyak2manc methods work and round trip", {
+  skip_if_not_installed("Morpho")
+  xyz_um <- rbind(
+    c(60, 100, 150),
+    c(170, 110, 300),
+    c(120, 80, 450)
+  )
+  manc <- xform_dyak2manc(xyz_um, units = "microns")
+  expect_equal(unname(manc), rbind(
+    c(255.8648, 270.1601, 387.9610),
+    c(135.3236, 182.9314, 238.1279),
+    c(206.2925, 103.8081, 106.6161)
+  ), tolerance = 1e-5)
+  expect_equal(xform_dyak2manc(xyz_um * 1e3) / 1e3, manc, tolerance = 1e-6)
+  # inverse TPS is a reverse fit, so round trips are approximate
+  back <- xform_dyak2manc(manc, units = "microns", inverse = TRUE)
+  expect_lt(max(abs(back - xyz_um)), 0.5)
+
+  man <- xform_dyak2manc(xyz_um, units = "microns", method = "manual")
+  expect_lt(max(sqrt(rowSums((man - manc)^2))), 15)
+  back <- xform_dyak2manc(man, units = "microns", method = "manual",
+                          inverse = TRUE)
+  expect_lt(max(abs(back - xyz_um)), 5)
+})
+
+test_that("xform_brain uses the default xform_dyak2manc registration", {
+  skip_if_not_installed("nat.templatebrains")
+  skip_if_not_installed("Morpho")
+  yakuba_register_xforms()
+  xyz_um <- cbind(60, 100, 150)
+  manc <- nat.templatebrains::xform_brain(xyz_um, sample = "yakubaum",
+                                          reference = "MANC")
+  expect_equal(unname(manc),
+               unname(xform_dyak2manc(xyz_um, units = "microns")))
+  back <- nat.templatebrains::xform_brain(manc, sample = "MANC",
+                                          reference = "yakubaum")
+  expect_lt(max(abs(back - xyz_um)), 0.5)
+})
+
+test_that("xform_dyak2manc ngscene method chains via malecns", {
+  skip_if_not_installed("Morpho")
+  skip_if_not_installed("malecns")
+  skip_if_not_installed("nat.templatebrains")
+  xyz_um <- cbind(120, 110, 300)
+  ng <- try(xform_dyak2manc(xyz_um, units = "microns", method = "ngscene"),
+            silent = TRUE)
+  skip_if(inherits(ng, "try-error"), "malecnsum -> MANC bridge unavailable")
+  tps <- xform_dyak2manc(xyz_um, units = "microns")
+  expect_lt(sqrt(sum((ng - tps)^2)), 15)
+})

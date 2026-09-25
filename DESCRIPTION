@@ -24,12 +24,14 @@ Imports:
     neuprintr,
     pbapply
 Suggests:
+    malecns,
     Morpho,
     nabor,
     nat.templatebrains,
     spelling,
     testthat (>= 3.0.0)
 Remotes:
+    natverse/malecns,
     natverse/malevnc,
     natverse/nat,
     natverse/neuprintr,
