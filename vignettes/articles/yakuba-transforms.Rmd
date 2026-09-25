@@ -121,6 +121,27 @@ types, using `data-raw/yakuba_xform_validation.R`:
 - **malecns:** results for the route to the male CNS improve by the same
   amount, since it passes through MANC.
 
+### Left-right assignment of somata
+
+`dyak_lr_position()` was also checked against the neuprint `somaSide`
+annotation for about 12,000 intrinsic neurons. A positive value means the fly's
+right. `malevnc::manc_lr_position()` on MANC intrinsic neurons is the
+benchmark.
+
+| | n (L/R) | Sign matches `somaSide` | Median L / R (µm) | Median of M somata (µm) |
+|---|---|---|---|---|
+| yakuba, no offset (old) | 12145 | 96.6% | -97.2 / 75.0 | -4.3 |
+| **yakuba (current)** | 12145 | **97.9%** | **-86.5 / 85.9** | 5.7 |
+| MANC | 12706 | 97.2% | -88.8 / 94.6 | -0.9 |
+
+- **Symmetry:** without the offset, the L and R distributions were off-centre by
+  about 11 µm. With it they are symmetric.
+- **Errors:** most wrongly assigned somata are near the midline, with a median
+  |value| of 5 µm. The error rate is similar to MANC, so it is about the limit
+  of the annotation and of soma positions near the midline.
+- **Midline somata:** somata annotated `M` scatter around 0, with a MAD of about
+  17 µm.
+
 What remains after the correction (for example ~5.6 µm for the DNs) reflects
 the accuracy of the registrations and real anatomical differences between the
 species. It is scatter, not a consistent offset.
@@ -131,5 +152,6 @@ species. It is scatter, not a consistent offset.
 - `data-raw/yakuba_surf_offset.R`: measures the offset and runs the checks
   above. It needs `yakSurf_lowRes.rds` from the malevnc repository.
 - `data-raw/yakuba_malecns_ngscene_tps.R`: builds the `ngscene` registration.
-- `data-raw/yakuba_xform_validation.R`: produces the validation tables above.
+- `data-raw/yakuba_xform_validation.R`: produces the validation tables above,
+  including the soma check.
   It needs neuprint access to yakuba and MANC, and takes about a minute.

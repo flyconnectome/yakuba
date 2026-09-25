@@ -82,3 +82,37 @@ lr <- sapply(Ls, function(l) {
 })
 round(apply(lr, 1, stats::median), 2)
 # expected: ~10.5 µm unshifted, ~0.2 µm shifted
+
+# left-right assignment of intrinsic neuron somata: sign of dyak_lr_position()
+# (positive = fly's right) vs the neuprint somaSide annotation, with and
+# without the offset. malevnc::manc_lr_position() on MANC is the benchmark.
+somata <- function(conn) {
+  q <- paste("MATCH (n:Neuron) WHERE n.somaLocation IS NOT NULL",
+             "AND n.class = 'intrinsic neuron'",
+             "RETURN n.somaLocation.x, n.somaLocation.y, n.somaLocation.z, n.somaSide")
+  d <- neuprintr::neuprint_fetch_custom(q, conn = conn, dataset = conn$dataset)$data
+  data.frame(xyzmatrix(t(sapply(d, function(r) unlist(r[1:3])))) * 8 / 1000,
+             side = sapply(d, function(r) format(r[[4]])))
+}
+unshifted_lr <- function(x) {
+  xs <- xform(x, yakuba_extdata_reg("yakuba_yakubaSym_1000pts_tps.rds"))
+  mirror(xs, mirrorAxisSize = sum(yakubasym$BoundingBox[, 1]),
+         mirrorAxis = "X", transform = "flip")[, 1] - xs[, 1]
+}
+sy <- somata(cy)
+sm <- somata(cm)
+sm$side <- c(LHS = "L", RHS = "R", Midline = "M")[sm$side]
+lr_summary <- function(lr, side) {
+  s <- side %in% c("L", "R")
+  c(n = sum(s), accuracy = mean(ifelse(lr[s] > 0, "R", "L") == side[s]),
+    median_L = stats::median(lr[side == "L"]),
+    median_R = stats::median(lr[side == "R"]),
+    median_M = stats::median(lr[side == "M"]))
+}
+round(rbind(
+  unshifted = lr_summary(unshifted_lr(xyzmatrix(sy)), sy$side),
+  shifted = lr_summary(dyak_lr_position(xyzmatrix(sy), units = "microns"), sy$side),
+  MANC = lr_summary(manc_lr_position(xyzmatrix(sm), units = "microns"), sm$side)
+), 3)
+# expected: accuracy 0.966 unshifted, 0.979 shifted, 0.972 MANC (n ~12k each);
+# median L/R ~(-97, 75) unshifted, (-86.5, 85.9) shifted, (-88.8, 94.6) MANC
