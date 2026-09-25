@@ -25,6 +25,7 @@ Imports:
     pbapply
 Suggests:
     Morpho,
+    nabor,
     nat.templatebrains,
     spelling,
     testthat (>= 3.0.0)

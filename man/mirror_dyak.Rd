@@ -43,7 +43,10 @@ yakuba template, optionally mirroring across the midline.
 Mirroring maps \code{x} into the symmetric \link{yakubasym} space with a
 bundled thin-plate spline registration (\code{yakuba_yakubaSym_1000pts_tps.rds},
 computed by Sebastian Cachero), flips across the X axis and then maps back
-with the inverse registration. The registration is defined in microns;
+with the inverse registration. As for the default method of
+\code{\link[=xform_dyak2manc]{xform_dyak2manc()}}, points are first shifted by (-6.5, -7.1, -8.0) µm to
+match the frame in which the registration was computed (see
+\code{\link[=yakuba_register_xforms]{yakuba_register_xforms()}}). The registration is defined in microns;
 nm inputs are scaled before and after transformation. Requires the
 suggested \code{Morpho} package.
 

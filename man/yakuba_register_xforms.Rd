@@ -13,10 +13,17 @@ Invisibly returns \code{NULL}.
 \code{yakuba_register_xforms()} registers a thin-plate spline
 transform from \code{yakubaum} to \code{MANC} using the bundled
 \code{yakuba_MANC_1000pts_tps.rds} file, and adds a simple scaling alias from
-\code{yakuba} (nm) to \code{yakubaum} (microns). It also registers a thin-plate
-spline from \code{yakubaum} to the symmetric template \code{yakubasym} (see
+\code{yakuba} (nm) to \code{yakubaum} (microns). It also registers a thin-plate spline
+from \code{yakubaum} to the symmetric template \code{yakubasym} (see
 \code{\link[=mirror_dyak]{mirror_dyak()}}). Call once per session if the startup hook has not
 already done so.
+}
+\details{
+The registrations were computed from a surface fitted to an
+earlier version of the yakuba data, which is offset from current yakuba
+coordinates by a pure translation. Points are therefore first shifted by
+(-6.5, -7.1, -8.0) µm. The shift was estimated by fitting that surface to
+\link{yakuba_neuropil_shell} (precision ~1 µm).
 }
 \examples{
 \donttest{

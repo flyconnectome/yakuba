@@ -74,7 +74,7 @@ test_that("dyak_lr_position gives signed midline displacement", {
   # Low X in yakuba is the fly's right (checked against MANC via the
   # yakuba -> MANC registration)
   sym <- rbind(c(60, 100, 200), c(175, 100, 200))
-  xyz_um <- nat::xform(sym, reg = nat::reglist(yakuba_sym_reg(), swap = TRUE))
+  xyz_um <- nat::xform(sym, reg = nat::invert_reglist(yakuba_sym_reg()))
   lr <- dyak_lr_position(xyz_um, units = "microns")
   expect_length(lr, 2L)
   expect_gt(lr[1], 0)
@@ -83,4 +83,13 @@ test_that("dyak_lr_position gives signed midline displacement", {
   expect_equal(abs(lr), 2 * abs(sym[, 1] - mid), tolerance = 1e-3)
 
   expect_equal(dyak_lr_position(xyz_um * 1e3), lr * 1e3, tolerance = 1e-6)
+})
+
+test_that("mirror_dyak maps the neuropil shell onto itself", {
+  skip_if_not_installed("Morpho")
+  set.seed(42)
+  v <- nat::xyzmatrix(yakuba_neuropil_shell)
+  m <- mirror_dyak(v[sample(nrow(v), 2000), ], units = "microns")
+  # ~5 µm without the offset to the frame of the symmetrising registration
+  expect_lt(stats::median(nabor::knn(v, m, k = 1)$nn.dists), 3)
 })
