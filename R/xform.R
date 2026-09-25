@@ -91,6 +91,10 @@ yakuba_register_xforms <- function() {
 #' @param inverse Whether to map from MANC to yakuba space.
 #' @param ... Additional arguments passed to [nat::xform()].
 #'
+#'   See the
+#'   [transforms article](https://flyconnectome.github.io/yakuba/articles/yakuba-transforms.html)
+#'   for how the registrations and the offset were validated.
+#'
 #' @return A transformed object of the same kind as `x`, in the same `units`.
 #' @export
 #' @seealso [yakuba_register_xforms()]

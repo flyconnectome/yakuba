@@ -23,7 +23,11 @@ space unless \code{inverse = TRUE}).}
 
 \item{inverse}{Whether to map from MANC to yakuba space.}
 
-\item{...}{Additional arguments passed to \code{\link[nat:xform]{nat::xform()}}.}
+\item{...}{Additional arguments passed to \code{\link[nat:xform]{nat::xform()}}.
+
+See the
+\href{https://flyconnectome.github.io/yakuba/articles/yakuba-transforms.html}{transforms article}
+for how the registrations and the offset were validated.}
 }
 \value{
 A transformed object of the same kind as \code{x}, in the same \code{units}.

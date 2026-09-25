@@ -38,6 +38,7 @@ Remotes:
     natverse/nat.templatebrains
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
+Config/Needs/website: rmarkdown
 URL: https://github.com/flyconnectome/yakuba, https://flyconnectome.github.io/yakuba/
 BugReports: https://github.com/flyconnectome/yakuba/issues
 Config/roxygen2/version: 8.1.0
