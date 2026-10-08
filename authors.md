@@ -8,15 +8,15 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/flyconnectome/yakuba/blob/v0.2.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/flyconnectome/yakuba/blob/main/DESCRIPTION)
 
 Jefferis G (2026). *yakuba: Access the Drosophila yakuba FlyEM Dataset*.
-R package version 0.2.0, <https://github.com/flyconnectome/yakuba>.
+R package version 0.2.0.9000, <https://github.com/flyconnectome/yakuba>.
 
     @Manual{,
       title = {yakuba: Access the Drosophila yakuba FlyEM Dataset},
       author = {Gregory Jefferis},
       year = {2026},
-      note = {R package version 0.2.0},
+      note = {R package version 0.2.0.9000},
       url = {https://github.com/flyconnectome/yakuba},
     }
