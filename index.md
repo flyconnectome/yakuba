@@ -31,6 +31,7 @@ This example shows how to read some descending neurons and co-visualise
 with the corresponding neurons in MANC.
 
 ``` r
+
 library(malevnc)
 library(yakuba)
 library(nat)

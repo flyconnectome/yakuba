@@ -1,0 +1,168 @@
+# Transforms between yakuba and MANC
+
+This article documents the registrations used to map the *D. yakuba* VNC
+onto the *D. melanogaster* MANC template, and onto a symmetrised version
+of itself for left-right mirroring. It also explains a coordinate offset
+that was found and corrected in September 2026.
+
+## Summary
+
+- `xform_brain(x, sample = "yakuba", reference = "MANC")` and
+  `xform_dyak2manc(x)` use the default `"tps1000"` registration.
+- [`mirror_dyak()`](https://flyconnectome.github.io/yakuba/reference/mirror_dyak.md),
+  [`symmetric_dyak()`](https://flyconnectome.github.io/yakuba/reference/mirror_dyak.md)
+  and
+  [`dyak_lr_position()`](https://flyconnectome.github.io/yakuba/reference/dyak_lr_position.md)
+  use the `yakubasym` registration.
+- Both registrations were computed in a coordinate frame offset from
+  current yakuba data by about (6.5, 7.1, 8.0) µm. Points are now
+  shifted by (-6.5, -7.1, -8.0) µm before either registration is
+  applied.
+- Two alternative yakuba to MANC registrations are available with
+  `xform_dyak2manc(x, method = "manual")` and `method = "ngscene"`. The
+  old registration without the shift is `method = "tps1000_unshifted"`.
+
+``` r
+
+library(yakuba)
+mdn <- read_dyak_neurons("MDN")
+mdn.manc <- xform_dyak2manc(mdn)                     # default, = xform_brain
+mdn.manual <- xform_dyak2manc(mdn, method = "manual")
+mdn.ng <- xform_dyak2manc(mdn, method = "ngscene")   # needs malecns
+mdn.m <- mirror_dyak(mdn)
+```
+
+## Registrations
+
+| Method | Landmarks | Source | Space |
+|----|----|----|----|
+| `tps1000` (default) | 1000 | Sebastian Cachero | yakuba → MANC, via yakSurf frame |
+| `manual` | 100 | Hiroshi Shiozaki (placed by hand) | yakuba → MANC |
+| `ngscene` | 21 | clio neuroglancer scene (pointA/pointB) | yakuba → male CNS, then `malecnsum` → MANC |
+| `yakubasym` | 1000 | Sebastian Cachero | yakuba → symmetrised yakuba, via yakSurf frame |
+
+All registrations are thin-plate splines in microns (`yakubaum`).
+Inverses are computed by swapping the landmark sets, so round trips are
+approximate (~0.3 µm for `tps1000`, a few µm for `manual`).
+
+The two 1000-point registrations were computed against *yakSurf*, a
+neuropil surface that Sebastian built from the yakuba synapse cloud
+available at the time (`malevnc/data-raw/yakSurf_lowRes.rds`).
+
+## The offset
+
+### Symptoms
+
+Before the correction:
+
+- [`mirror_dyak()`](https://flyconnectome.github.io/yakuba/reference/mirror_dyak.md)
+  did not map left neuropils onto their right partners. After mirroring
+  each (L) neuprint ROI, a median 10.5 µm shift in X was still needed to
+  match the corresponding (R) ROI. The same check on MANC with
+  [`malevnc::mirror_manc()`](https://natverse.org/malevnc/reference/mirror_manc.html)
+  gives ~0.
+- Yakuba neurons mapped to MANC were displaced from their matched MANC
+  partners, by the same amount in the same direction on both sides of
+  the VNC. For MDN, DNg13 and DNa02 the median offset was (4.7, -1.8,
+  1.5) µm. Shared neuropil ROIs were displaced by a median (7.4, -2.1,
+  10.1) µm.
+
+A bias shared by both registrations, and constant across the VNC,
+pointed to a problem with the input frame rather than the registrations
+themselves.
+
+### Measurement
+
+The clio neuroglancer scene for yakuba includes a `neuropil-shell`
+layer. This is shipped with the package as `yakuba_neuropil_shell`,
+along with the `vnc-shell` layer as `yakuba_vnc_shell`. yakSurf matches
+the neuropil shell closely after a pure translation, found with
+translation-only ICP (see `data-raw/yakuba_surf_offset.R`):
+
+- **Translation:** (6.45, 7.09, 7.92) µm, from yakSurf to the
+  full-resolution shell.
+- **Fit:** the median surface distance falls from 5.3 to 1.1 µm, which
+  is about the precision of meshing at 0.5-2 µm voxels.
+- **Not a flip:** all eight combinations of axis flips were tried, and
+  only the unflipped surface fits. The best flip, X, leaves 5.7 µm,
+  which is about what you get mirroring the shell onto itself.
+- **Not scale or rotation:** a similarity fit gives scale 1.000 and 0°
+  rotation. Fitting each quarter of the VNC along the AP axis separately
+  gives the same translation within ~1 µm.
+- **Not the vnc-shell:** the same fit against the outer `vnc-shell` is
+  poor (8.3 µm), so yakSurf is a neuropil surface.
+
+The offset is not a whole number of voxels at any plausible grid size,
+and it does not match the \[0, 122, 896\] voxel shift Stuart Berg
+applied to the yakuba volume. It most likely comes from padding or
+cropping of the volume the original synapse cloud was taken from. The
+package uses the value re-derived against the decimated shell, rounded
+to 0.1 µm: `yakuba_surf_offset = c(-6.5, -7.1, -8.0)`. The precision is
+about ±1 µm per axis.
+
+### Validation
+
+The offset was measured from the surfaces alone, with no neuron data. It
+was then checked against neuprint ROI meshes and three matched
+descending neuron types, using `data-raw/yakuba_xform_validation.R`:
+
+| Registration | DN mean distance (µm) | Median ROI shift vs MANC (µm) |
+|----|----|----|
+| tps1000_unshifted (old) | 8.9 | (7.4, -2.1, 10.1) |
+| **tps1000 (default)** | **5.6** | **(0.6, 0.2, 0.2)** |
+| manual | 6.4 | (0.9, -0.3, -1.2) |
+| ngscene | 7.7 | (-2.0, 2.2, 1.6) |
+
+- **DN mean distance** is the mean distance from each transformed yakuba
+  MDN, DNg13 and DNa02 to the closest MANC neuron of the same type.
+- **Median ROI shift** is the translation still needed to line up each
+  shared ROI after transformation. For a well-registered pair it should
+  be about 0.
+- **Mirroring:** the remaining X mismatch after
+  [`mirror_dyak()`](https://flyconnectome.github.io/yakuba/reference/mirror_dyak.md)
+  of (L) onto
+  18. ROIs fell from 10.5 to 0.2 µm.
+- **Independent fits:** fitting the best pre-shift directly to the DNs
+  gave about (-6, -5.5, -4.8) µm, and to the ROIs about (-7, -7.8, -7.8)
+  µm. Both are consistent with the surface-derived value.
+- **malecns:** results for the route to the male CNS improve by the same
+  amount, since it passes through MANC.
+
+### Left-right assignment of somata
+
+[`dyak_lr_position()`](https://flyconnectome.github.io/yakuba/reference/dyak_lr_position.md)
+was also checked against the neuprint `somaSide` annotation for about
+12,000 intrinsic neurons. A positive value means the fly’s right.
+[`malevnc::manc_lr_position()`](https://natverse.org/malevnc/reference/manc_lr_position.html)
+on MANC intrinsic neurons is the benchmark.
+
+|  | n (L/R) | Sign matches `somaSide` | Median L / R (µm) | Median of M somata (µm) |
+|----|----|----|----|----|
+| yakuba, no offset (old) | 12145 | 96.6% | -97.2 / 75.0 | -4.3 |
+| **yakuba (current)** | 12145 | **97.9%** | **-86.5 / 85.9** | 5.7 |
+| MANC | 12706 | 97.2% | -88.8 / 94.6 | -0.9 |
+
+- **Symmetry:** without the offset, the L and R distributions were
+  off-centre by about 11 µm. With it they are symmetric.
+- **Errors:** most wrongly assigned somata are near the midline, with a
+  median \|value\| of 5 µm. The error rate is similar to MANC, so it is
+  about the limit of the annotation and of soma positions near the
+  midline.
+- **Midline somata:** somata annotated `M` scatter around 0, with a MAD
+  of about 17 µm.
+
+What remains after the correction (for example ~5.6 µm for the DNs)
+reflects the accuracy of the registrations and real anatomical
+differences between the species. It is scatter, not a consistent offset.
+
+## Reproducing
+
+- `data-raw/yakuba_shells.R`: downloads and decimates the clio shells.
+- `data-raw/yakuba_surf_offset.R`: measures the offset and runs the
+  checks above. It needs `yakSurf_lowRes.rds` from the malevnc
+  repository.
+- `data-raw/yakuba_malecns_ngscene_tps.R`: builds the `ngscene`
+  registration.
+- `data-raw/yakuba_xform_validation.R`: produces the validation tables
+  above, including the soma check. It needs neuprint access to yakuba
+  and MANC, and takes about a minute.

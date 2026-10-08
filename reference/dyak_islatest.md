@@ -51,6 +51,8 @@ For details (and there are some) please see
 ``` r
 # \donttest{
 dyak_islatest(c(10280,10490))
-#> [1] TRUE TRUE
+#> Warning: Clio dataset lookup failed; falling back to baked-in neuprint settings for `yakuba`. DVID/Clio-backed functionality may be unavailable in this session.
+#> Warning: Clio dataset lookup failed; falling back to baked-in neuprint settings for `yakuba`. DVID/Clio-backed functionality may be unavailable in this session.
+#> Error in (function (server = getOption("malevnc.server")) {    if (is.null(server))         stop("Please use options(malevnc.server) to set the URL of the emdata server!")    pu = tryCatch(httr::parse_url(server), error = function(e) stop("Unable to parse malevnc.server URL:",         server))    server_down <- is.null(curl::nslookup(pu$hostname, error = FALSE))    if (server_down) {        internet_ok <- !is.null(curl::nslookup("google.com",             error = FALSE))        if (internet_ok)             stop("Cannot reach malevnc server. Please check `options('malevnc.server')")        else stop("Cannot reach malevnc server or google. Please check your internet connection!")    }    server})(): Please use options(malevnc.server) to set the URL of the emdata server!
 # }
 ```
