@@ -10,11 +10,13 @@ yakuba_register_xforms()
 Invisibly returns \code{NULL}.
 }
 \description{
-\code{yakuba_register_xforms()} registers a thin-plate spline
-transform from \code{yakubaum} to \code{MANC} using the bundled
-\code{yakuba_MANC_1000pts_tps.rds} file, and adds a simple scaling alias from
-\code{yakuba} (nm) to \code{yakubaum} (microns). Call once per session if the startup
-hook has not already done so.
+\code{yakuba_register_xforms()} registers the default transform
+from \code{yakubaum} to \code{MANC} (see \code{\link[=xform_dyak2manc]{xform_dyak2manc()}}) and a simple scaling
+alias from \code{yakuba} (nm) to \code{yakubaum} (microns) for use with
+\code{nat.templatebrains::xform_brain()}. It also registers a thin-plate spline
+from \code{yakubaum} to the symmetric template \code{yakubasym} (see
+\code{\link[=mirror_dyak]{mirror_dyak()}}). Call once per session if the startup hook has not
+already done so.
 }
 \examples{
 \donttest{

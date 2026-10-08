@@ -13,6 +13,7 @@ Description: Provides a thin wrapper around the 'malevnc' package for working
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: xz
 Language: en-GB
 Depends:
     R (>= 3.6.0)
@@ -23,17 +24,21 @@ Imports:
     neuprintr,
     pbapply
 Suggests:
+    malecns,
     Morpho,
+    nabor,
     nat.templatebrains,
     spelling,
     testthat (>= 3.0.0)
 Remotes:
+    natverse/malecns,
     natverse/malevnc,
     natverse/nat,
     natverse/neuprintr,
     natverse/nat.templatebrains
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Config/testthat/edition: 3
+Config/Needs/website: rmarkdown
 URL: https://github.com/flyconnectome/yakuba, https://flyconnectome.github.io/yakuba/
 BugReports: https://github.com/flyconnectome/yakuba/issues
+Config/roxygen2/version: 8.1.0

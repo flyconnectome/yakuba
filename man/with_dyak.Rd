@@ -54,6 +54,6 @@ str(old)
 }
 }
 \seealso{
-\code{\link[malevnc:choose_malevnc_dataset]{malevnc::choose_flyem_dataset()}},
+\code{\link[malevnc:choose_flyem_dataset]{malevnc::choose_flyem_dataset()}},
 \code{\link[malevnc:choose_malevnc_dataset]{malevnc::choose_malevnc_dataset()}}
 }

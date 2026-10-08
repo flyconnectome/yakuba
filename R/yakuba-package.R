@@ -11,6 +11,10 @@
 #'   Sebastian Cachero in April 2025. See [slack for
 #'   details](https://flyem-cns.slack.com/archives/C07SFDC909W/p1744652271402679?thread_ts=1744645357.564199&cid=C07SFDC909W)
 #'
+#'   A second thin-plate spline registration from `yakubaum` to a symmetrised
+#'   yakuba template ([yakubasym]), also computed by Sebastian Cachero, supports
+#'   left-right mirroring via [mirror_dyak()] and [symmetric_dyak()].
+#'
 #' @section Package Options:
 #'   There is currently one package option:
 #'
