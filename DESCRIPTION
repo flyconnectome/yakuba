@@ -1,7 +1,7 @@
 Package: yakuba
 Type: Package
 Title: Access the Drosophila yakuba FlyEM Dataset
-Version: 0.1.0
+Version: 0.2.0
 Authors@R:
     c(person(given = "Gregory",
            family = "Jefferis",
